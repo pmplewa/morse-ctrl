@@ -1,0 +1,34 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "morse-ctrl"
+version = "0.0.1"
+description = "A MIDI controller for the Walrus Audio ACS1."
+license="Apache-2.0"
+authors = ["Philipp Plewa <pmplewa@users.noreply.github.com>"]
+readme = "README.md"
+repository = "https://github.com/pmplewa/morse-ctrl"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Multimedia :: Sound/Audio :: MIDI",
+]
+
+[tool.poetry.dependencies]
+python = "~=3.10"
+attrs = ">=23.2"
+mido = {version = ">=1.3", extras = ["ports-rtmidi"]}
+
+[tool.poetry.group.dev.dependencies]
+invoke = "~=2.2"
+mypy = "~=1.7"
+ruff = "~=0.1"
+
+[tool.ruff]
+select = ["E",  "F",  "I",  "UP",  "W"]
+
+[[tool.mypy.overrides]]
+module = ["mido.*"]
+ignore_missing_imports = true
