@@ -2,7 +2,7 @@ import logging
 
 import attrs.validators as val
 from attrs import Attribute, define, field
-from mido import Message
+from mido import Message, open_output
 from mido.ports import BaseOutput
 
 from .utils import SETTERS
@@ -13,6 +13,7 @@ LOGGER = logging.getLogger(__name__)
 @define
 class Device:
     port: BaseOutput = field(
+        converter=lambda value: open_output(value) if isinstance(value, str) else value,
         validator=val.instance_of(BaseOutput),
     )
     channel: int = field(
