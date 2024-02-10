@@ -3,11 +3,10 @@ from enum import Enum
 from functools import partial
 
 import attrs.validators as val
-from attrs import Attribute, field
+from attrs import Attribute, field, setters
 from mido import Message
 
 from .devices import Device
-from .utils import SETTERS
 
 LOGGER = logging.getLogger(__name__)
 
@@ -48,7 +47,11 @@ def _change_categorical_control(
 def create_continous_control(control: int):
     return field(
         default=None,
-        on_setattr=[*SETTERS, partial(_change_continous_control, control=control)],
+        on_setattr=[
+            setters.convert,
+            setters.validate,
+            partial(_change_continous_control, control=control),
+        ],
         converter=lambda value: round(12.7 * value) if value is not None else None,
         validator=val.optional(val.and_(val.instance_of(int), val.ge(0), val.le(127))),
     )
@@ -57,7 +60,10 @@ def create_continous_control(control: int):
 def create_bool_control(control: int):
     return field(
         default=None,
-        on_setattr=[*SETTERS, partial(_change_bool_control, control=control)],
+        on_setattr=[
+            setters.validate,
+            partial(_change_bool_control, control=control),
+        ],
         validator=val.optional(val.instance_of(bool)),
     )
 
@@ -66,6 +72,9 @@ def create_categorical_control(control: int, metadata: Metadata):
     return field(
         default=None,
         metadata=metadata,
-        on_setattr=[*SETTERS, partial(_change_categorical_control, control=control)],
+        on_setattr=[
+            setters.validate,
+            partial(_change_categorical_control, control=control),
+        ],
         validator=val.optional(val.instance_of(Enum)),
     )

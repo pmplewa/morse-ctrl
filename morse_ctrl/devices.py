@@ -1,11 +1,9 @@
 import logging
 
 import attrs.validators as val
-from attrs import Attribute, define, field
+from attrs import Attribute, define, field, setters
 from mido import Message, open_output
 from mido.ports import BaseOutput
-
-from .utils import SETTERS
 
 LOGGER = logging.getLogger(__name__)
 
@@ -40,6 +38,6 @@ def _change_program(
 class ProgramDevice(Device):
     program: int | None = field(
         default=None,
-        on_setattr=[*SETTERS, _change_program],
+        on_setattr=[setters.validate, _change_program],
         validator=val.optional(val.and_(val.instance_of(int), val.ge(0), val.le(127))),
     )
