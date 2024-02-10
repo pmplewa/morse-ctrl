@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "morse-ctrl"
 version = "0.0.1"
-description = "A MIDI controller for the Walrus Audio ACS1."
+description = "A MIDI controller for the Walrus Audio MAKO series effect pedals."
 license="Apache-2.0"
 authors = ["Philipp Plewa <pmplewa@users.noreply.github.com>"]
 readme = "README.md"

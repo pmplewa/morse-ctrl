@@ -1,7 +1,7 @@
 # morse-ctrl
 
-This package contains a Python class to control the Walrus Audio ACS1 effect
-pedal via MIDI, using the `mido` library.
+This package contains a Python class to control the Walrus Audio MAKO series
+effect pedals via MIDI, using the `mido` library.
 
 ## Installation
 
